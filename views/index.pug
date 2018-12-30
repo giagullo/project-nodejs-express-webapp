@@ -5,17 +5,26 @@ block content
     .cloud-image
         img(src='/images/successCloudNew.svg')
     .content
-        .tweet-container
-             a(href='http://twitter.com/intent/tweet/?text=I%20just%20created%20a%20new%20Node.js%20Express%20website%20on%20Azure%20using%20Azure%20DevOps%20Project&hashtags=AzureDevOpsProject%2CVSTS%20%40Azure%20%40VSTS')
-                img(src='/images/tweetThis.svg')    
         .content-body
             .success-text
-                p Success!
+                p Hello, user!
             .description 
-                p Azure DevOps Project has been successfully setup
+                p You are in your brand new web application
             .description
-                p Your Node.js Express app is up and running on Azure
+                p Do what you want!
     
+  .row
+    .col-md-12
+      h2 Your first web form
+      form(action='/result', method='POST')
+        p
+            | Your name: 
+            input(type='text', name='personName', value='')
+            |          Your title: 
+            input(type='text', name='title', value='')
+            |          Your year of birth: 
+            input(type='text', name='year', value='')
+        input(type='submit', value='Submit')
   .row
     .col-md-4
       h2 Get started right away

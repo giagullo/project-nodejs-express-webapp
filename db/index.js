@@ -1,0 +1,1 @@
+exports.do_query = require('./db.js').do_query

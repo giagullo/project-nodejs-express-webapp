@@ -17,6 +17,11 @@ var app = express();
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
 
+// force user authorization in dev: no proxy active to send Remote-User
+if (app.get('env') === 'development') {
+    require('./aut').setDevelopmentUser('myuser')
+}
+
 // uncomment after placing your favicon in /public
 //app.use(favicon(__dirname + '/public/favicon.ico'));
 app.use(logger('dev'));
@@ -42,22 +47,32 @@ app.use(function (req, res, next) {
 // will print stacktrace
 if (app.get('env') === 'development') {
     app.use(function (err, req, res, next) {
-        res.status(err.status || 500);
-        res.render('error', {
-            message: 'ERROR ' + err.message,
-            error: err
-        });
+        console.log (err.message)
+        res.status(err.status || 500); 
+        if (req.get('Accept') == 'application/json') {
+            res.send({status : err.status, errorMessage: err.message})
+        } else {
+            res.render('error', {
+                message: 'ERROR ' + err.message,
+                error: err
+            });    
+        }  
     });
 }
 
 // production error handler
 // no stacktraces leaked to user
 app.use(function (err, req, res, next) {
-    res.status(err.status || 500);
-    res.render('error', {
-        message: err.message,
-        error: {}
-    });
+    console.log (err.message)
+    res.status(err.status || 500); 
+    if (req.get('Accept') == 'application/json') {
+        res.send({status : err.status, errorMessage: err.message})
+    } else {
+        res.render('error', {
+            message: 'ERROR ' + err.message,
+            error: {}
+        });    
+    }
 });
 
 app.set('port', process.env.PORT || 3000);
